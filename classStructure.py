@@ -48,7 +48,6 @@ class Structure:
         return self.n_layers
 
 
-
     def get_number_of_inputs(self):
         return self.n_inputs
 

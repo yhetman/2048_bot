@@ -12,17 +12,7 @@
 
 import math
 import numpy as np
-
-CLIP_LIMIT = 300
-
-
-def sigmoid_fn(x):
-    return 1.0 / (1.0 + math.exp(-x))
-
-
-def tanh_fn(x):
-    return 2 * sigmoid_fn(2 * x) - 1
-
+from utils import *
 
 class Neuron:
     def __init__(self, weights, bias):

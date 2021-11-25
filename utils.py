@@ -1,7 +1,5 @@
-#* ************************************************************************** *#
 #*                                                                            *#
-#*                                                                            *#
-#*   classHumanBoard.py                                                       *#
+#*   utils.py                                                                 *#
 #*                                                                            *#
 #*   By: Yuliia Hetman <juliagetman5@knu.ua>                                  *#
 #*                                                                            *#
@@ -10,17 +8,30 @@
 #*                                                                            *#
 #* ************************************************************************** *#
 
-import tkinter as tk
-from classBoard import Board
+
+import math
+import pickle
+
+MOVE_PAUSE_TIME = 0.15
+RANDOMNESS = 0.75
+MAX_SCORE_SCALE = 10
+SUM_SCORE_SCALE = 1
+SCALE = 1
+CLIP_LIMIT = 300
 
 
-class HumanBoard(Board):
-    def __init__(self,master,game):
-        Board.__init__(self, master, game)
+def sigmoid_fn(x):
+    return 1.0 / (1.0 + math.exp(-x))
 
 
-    def perform_move(self, move_dir):
-        self.game.swipe(move_dir)
-        self.update_tiles()
-        game_over_state = self.game.check_for_game_over()
-        if game_over_state: print(game_over_state)
+def tanh_fn(x):
+    return 2 * sigmoid_fn(2 * x) - 1
+
+
+
+def save_model_state(model, fname):
+    pickle.dump(model, open(fname, "wb"))
+
+def load_model_state(fname):
+    return pickle.load(open(fname, "rb"))
+

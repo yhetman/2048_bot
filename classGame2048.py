@@ -12,10 +12,7 @@
 
 import numpy as np
 import math
-
-RANDOMNESS = 0.75
-MAX_SCORE_SCALE = 10
-SUM_SCORE_SCALE = 1
+from utils import *
 
 class Game2048:
     def __init__(self, n, random_stream = np.random.RandomState()):
