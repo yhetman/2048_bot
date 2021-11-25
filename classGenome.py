@@ -73,18 +73,3 @@ class Genome:
         return self.structure
 
 
-def genome_crossover(genome1, genome2):
-    if genome1.get_length() != genome2.get_length():
-        raise ValueError('Genomes are not the same length!')
-    n = int(np.random.randint(1, genome1.get_length(), 1))
-    dna1 = genome1.get_dna()
-    dna2 = genome2.get_dna()
-    tmp = np.copy(dna1[n:])
-    dna1[n:] = dna2[n:]
-    dna2[n:] = tmp
-    structure = genome1.get_structure()
-    genome3 = Genome(structure)
-    genome4 = Genome(structure)
-    genome3.set_dna(dna1)
-    genome4.set_dna(dna2)
-    return genome3, genome4

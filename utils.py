@@ -28,9 +28,9 @@ def tanh_fn(x):
     return 2 * sigmoid_fn(2 * x) - 1
 
 
-
 def save_model_state(model, fname):
     pickle.dump(model, open(fname, "wb"))
+
 
 def load_model_state(fname):
     return pickle.load(open(fname, "rb"))

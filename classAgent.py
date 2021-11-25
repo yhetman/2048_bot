@@ -12,7 +12,6 @@
 
 import math
 import numpy as np
-from classNetwork import Network
 from classGenome import Genome
 from classStructure import Structure
 from classBoard import Board
@@ -22,11 +21,14 @@ import time
 
 
 class Agent:
-    def __init__(self, nn_structure, genome=None):
+    def __init__(self, nn_structure, genome = None):
         if not type(nn_structure) is Structure:
             raise ValueError('Input structure must be of Structure type')
         self.nn_structure = nn_structure
-        self.genome = genome if genome and type(genome) is Genome else Genome(self.nn_structure)
+         if genome and type(genome) is Genome:
+            self.genome = genome
+        else:
+            self.genome = Genome(self.nn_structure)
         self.network = self.genome.generate_network()
         self.game_size = math.sqrt(self.nn_structure.get_number_of_inputs())
         self.game_random_state = np.random.RandomState(np.random.randint(10000))
@@ -62,11 +64,16 @@ class Agent:
     def choose_action(self, input_state):
         weighted_actions = self.evaluate_network(input_state)
         max_idx = np.argmax(weighted_actions)
-        if max_idx == 0: action = 'left'
-        elif max_idx == 1: action = 'right'
-        elif max_idx == 2: action = 'up'
-        elif max_idx == 3: action = 'down'
-        else: raise ValueError('Invalid action')
+        if max_idx == 0:
+            action = 'left'
+        elif max_idx == 1:
+            action = 'right'
+        elif max_idx == 2:
+            action = 'up'
+        elif max_idx == 3:
+            action = 'down'
+        else:
+            raise ValueError('Invalid action')
         return action
 
 
@@ -76,16 +83,23 @@ class Agent:
         else:
             self.stuck_counter = 0
             self.old_state = state
-        return (True if self.stuck_counter > 2 else False)
+        if self.stuck_counter > 2:
+            return True
+        else:
+            return False
         
 
 
     def check_for_game_over(self, game, flat_state):
         end_state = game.check_for_game_over()
-        if end_state == 'WIN': return True, True
-        elif end_state == 'LOSE': return True, False
-        elif self.check_for_agent_stuck(flat_state): return True, False
-        else: return False, False
+        if end_state == 'WIN':
+            return True, True
+        elif end_state == 'LOSE':
+            return True, False
+        elif self.check_for_agent_stuck(flat_state):
+            return True, False
+        else:
+            return False, False
 
 
 
@@ -120,7 +134,7 @@ class Agent:
             score,win = self.play_game(gui_root)
             tmp = self.game_random_state.get_state()
             self.game_random_state.set_state(old_seed)
-            return score,win
+            return score, win
         else:
             raise ValueError("A game must be played before attempting to replay it!")
 

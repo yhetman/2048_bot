@@ -27,13 +27,17 @@ class Structure:
 
 
     def get_number_of_weights_per_layer(self, n):
-        if n == 0: return 2 * self.n_inputs
-        return self.neurons_per_layer[n] * (self.neurons_per_layer[n - 1] + 1)
+        if n == 0:
+            return 2 * self.n_inputs
+        else:
+            return self.neurons_per_layer[n] * (self.neurons_per_layer[n - 1] + 1)
 
 
     def get_number_of_inputs_per_layer(self, n):
-        if n == 0: return 1
-        return self.neurons_per_layer[n - 1]
+        if n == 0:
+            return 1
+        else:
+            return self.neurons_per_layer[n - 1]
 
 
     def get_number_of_neurons_per_layer(self, n):

@@ -16,7 +16,26 @@ from classStructure import Structure
 from classAgent import Agent
 import concurrent.futures
 from sampling import *
-from classGenome import Genome, crossingover
+from classGenome import Genome
+
+
+def crossover(genome1, genome2):
+    if genome1.get_length() != genome2.get_length():
+        raise ValueError('Genomes are not the same length!')
+    n = int(np.random.randint(1, genome1.get_length(), 1))
+    dna1 = genome1.get_dna()
+    dna2 = genome2.get_dna()
+    tmp = np.copy(dna1[n:])
+    dna1[n:] = dna2[n:]
+    dna2[n:] = tmp
+    structure = genome1.get_structure()
+    genome3 = Genome(structure)
+    genome4 = Genome(structure)
+    genome3.set_dna(dna1)
+    genome4.set_dna(dna2)
+    return genome3, genome4
+
+
 
 class GeneticLearner:
     def __init__(self, n_agents, layer_sizes, seed=0):
@@ -51,7 +70,7 @@ class GeneticLearner:
 
 
     def population_fitness_test_multithread(self):
-        with concurrent.futures.ProcessPoolExecutor(8) as executor:
+        with concurrent.futures.ProcessPoolExecutor() as executor:
             futures = [ executor.submit(self.agents[i].play_game) for i in range(self.n_agents)]
             concurrent.futures.wait(futures)
             self.agent_scores = [f.result() for f in futures]
@@ -64,8 +83,7 @@ class GeneticLearner:
             scores[idx_best] = 0
             idx_survived = sampling_without_replacement(scores, self.n_to_keep - 1)
             idx_survived = np.append(idx_survived, idx_best )
-        else:
-            idx_survived = sampling_without_replacement(scores, self.n_to_keep)
+        else: idx_survived = sampling_without_replacement(scores, self.n_to_keep)
         idx_survived = tuple(idx_survived)
         self.agents = [ self.agents[i] for i in range(self.n_agents) if i in idx_survived]
         self.agent_scores = [ self.agent_scores[i] for i in range(self.n_agents) if i in idx_survived]
@@ -85,7 +103,7 @@ class GeneticLearner:
         new_generation = []
         for p1idx, p2idx in parent_idx:
             if np.random.uniform() < self.crossover_rate:
-                genome1,genome2 = crossingover(self.agents[int(p1idx)].get_genome(), self.agents[int(p2idx)].get_genome())
+                genome1,genome2 = crossover(self.agents[int(p1idx)].get_genome(), self.agents[int(p2idx)].get_genome())
                 new_generation = new_generation + [Agent(self.nn_struct,genome1), Agent(self.nn_struct,genome2)]
             else:
                 new_generation = new_generation + [self.agents[int(p1idx)].copy(), self.agents[int(p1idx)].copy()]
@@ -110,21 +128,22 @@ class GeneticLearner:
             print("Generation " + str(i) + " - maximum: " + str(maximum) + "  median: " + str(med) + " minimum: " + str(minimum))
 
 
-    def get_score_array(self):
+   def get_score_array(self):
         return np.array([self.agent_scores[i][0] for i in range(self.n_agents)])
 
 
     def get_best_agent(self):
         scores = self.get_score_array()
-        return self.agents[np.argmax(scores)]
-
-
+        idx = np.argmax(scores)
+        return self.agents[idx]
 
     def get_worst_agent(self):
         scores = self.get_score_array()
-        return self.agents[np.argmin(scores)]
-
+        idx = np.argmin(scores)
+        return self.agents[idx]
 
     def get_median_agent(self):
         scores = self.get_score_array()
-        return self.agents[ np.argmax(scores == np.median(scores))]
+        median = np.median(scores)
+        median_idx = np.argmax(scores == median) 
+        return self.agents[median_idx]

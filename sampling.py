@@ -12,7 +12,6 @@
 import numpy as np
 
 
-
 def random_step_selection(scores,selection_points):
     idx_to_keep = []
     cummulateive_scores = np.cumsum(scores)
