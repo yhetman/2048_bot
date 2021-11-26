@@ -6,7 +6,7 @@
 #*   By: Yuliia Hetman <juliagetman5@knu.ua>                                  *#
 #*                                                                            *#
 #*   Created: 2021/11/20 13:09:32 by Yuliia Hetman                            *#
-#*   Updated: 2021/11/25 20:41:39 by yhetman                                  *#
+#*   Updated: 2021/11/25 20:41:39 by Yuliia Hetman                            *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
@@ -79,9 +79,12 @@ class Game2048:
 
 
     def check_for_game_over(self):
-        if np.any(self.game_state == 2048): return "WIN"
-        if self.is_board_full() and self.check_for_valid_moves() == False: return "LOSE"
-        return None
+        if np.any(self.game_state == 2048):
+            return "WIN"
+        if self.is_board_full() and self.check_for_valid_moves() == False:
+            return "LOSE"
+        else:
+            return None
 
 
     def check_for_valid_moves(self):
@@ -134,17 +137,28 @@ class Game2048:
 
     def check_move_type(self,idx,vec):
         moved_idx = idx + vec
-        if np.any(np.logical_or(moved_idx < 0, moved_idx >= self.n)): return 0
+        if np.any(np.logical_or(moved_idx < 0, moved_idx >= self.n)):
+            return 0
         adjacent_val = self.game_state[moved_idx[0], moved_idx[1]]
         current_val = self.game_state[idx[0], idx[1]]
-        if adjacent_val == 0: return 1
-        elif adjacent_val == current_val: return 2
-        return 0
+        if adjacent_val == 0:
+            return 1
+        elif adjacent_val == current_val:
+            return 2
+        else:
+            return 0
 
 
     def get_state(self, flat=False):
-        return (self.game_state.reshape(-1) if flat else self.game_state)
+        if flat:
+            return self.game_state.reshape(-1)
+        else:
+            return self.game_state
 
         
     def get_score(self):
-        return (MAX_SCORE_SCALE * np.max(np.max(self.game_state)) + SUM_SCORE_SCALE * np.sum(np.sum(self.game_state)))
+        max_val = np.max(np.max(self.game_state))
+        board_sum = np.sum(np.sum(self.game_state))
+        score = MAX_SCORE_SCALE * max_val + SUM_SCORE_SCALE * board_sum
+        return score
+

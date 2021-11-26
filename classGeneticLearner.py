@@ -6,7 +6,7 @@
 #*   By: Yuliia Hetman <juliagetman5@knu.ua>                                  *#
 #*                                                                            *#
 #*   Created: 2021/11/20 13:09:32 by Yuliia Hetman                            *#
-#*   Updated: 2021/11/25 20:41:39 by yhetman                                  *#
+#*   Updated: 2021/11/25 20:41:39 by Yuliia Hetman                            *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
@@ -83,7 +83,8 @@ class GeneticLearner:
             scores[idx_best] = 0
             idx_survived = sampling_without_replacement(scores, self.n_to_keep - 1)
             idx_survived = np.append(idx_survived, idx_best )
-        else: idx_survived = sampling_without_replacement(scores, self.n_to_keep)
+        else:
+            idx_survived = sampling_without_replacement(scores, self.n_to_keep)
         idx_survived = tuple(idx_survived)
         self.agents = [ self.agents[i] for i in range(self.n_agents) if i in idx_survived]
         self.agent_scores = [ self.agent_scores[i] for i in range(self.n_agents) if i in idx_survived]
@@ -128,7 +129,7 @@ class GeneticLearner:
             print("Generation " + str(i) + " - maximum: " + str(maximum) + "  median: " + str(med) + " minimum: " + str(minimum))
 
 
-   def get_score_array(self):
+    def get_score_array(self):
         return np.array([self.agent_scores[i][0] for i in range(self.n_agents)])
 
 

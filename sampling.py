@@ -4,13 +4,12 @@
 #*   By: Yuliia Hetman <juliagetman5@knu.ua>                                  *#
 #*                                                                            *#
 #*   Created: 2021/11/20 13:09:32 by Yuliia Hetman                            *#
-#*   Updated: 2021/11/25 20:41:39 by yhetman                                  *#
+#*   Updated: 2021/11/25 20:41:39 by Yuliia Hetman                            *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
 
 import numpy as np
-
 
 def random_step_selection(scores,selection_points):
     idx_to_keep = []

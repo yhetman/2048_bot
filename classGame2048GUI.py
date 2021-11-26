@@ -6,12 +6,13 @@
 #*   By: Yuliia Hetman <juliagetman5@knu.ua>                                  *#
 #*                                                                            *#
 #*   Created: 2021/11/20 13:09:32 by Yuliia Hetman                            *#
-#*   Updated: 2021/11/25 20:41:39 by yhetman                                  *#
+#*   Updated: 2021/11/25 20:41:39 by Yuliia Hetman                            *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
 import tkinter as tk
 from classBoard import Board
+from classHumanGUI import HumanGUI
 
 class Game2048GUI(tk.Frame):
     def __init__(self, master, game):
@@ -25,3 +26,9 @@ class Game2048GUI(tk.Frame):
     def update_gui(self):
         self.board.update_tiles()
 
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("2048 Game")
+    HumanGUI(root).pack()
+    root.mainloop()

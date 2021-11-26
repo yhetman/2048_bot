@@ -6,7 +6,7 @@
 #*   By: Yuliia Hetman <juliagetman5@knu.ua>                                  *#
 #*                                                                            *#
 #*   Created: 2021/11/20 13:09:32 by Yuliia Hetman                            *#
-#*   Updated: 2021/11/25 20:41:39 by yhetman                                  *#
+#*   Updated: 2021/11/25 20:41:39 by Yuliia Hetman                            *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
@@ -18,14 +18,14 @@ from classBoard import Board
 from classGame2048 import Game2048
 from utils import *
 import time
-
+import tkinter as tk
 
 class Agent:
     def __init__(self, nn_structure, genome = None):
         if not type(nn_structure) is Structure:
             raise ValueError('Input structure must be of Structure type')
         self.nn_structure = nn_structure
-         if genome and type(genome) is Genome:
+        if genome and type(genome) is Genome:
             self.genome = genome
         else:
             self.genome = Genome(self.nn_structure)
