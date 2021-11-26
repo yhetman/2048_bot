@@ -28,7 +28,7 @@ fname = './models2/model_'
 n_agents = 1000
 generations_per_batch = 1
 n_batches = 2000
-gen_to_load = 159
+gen_to_load = 328
 total_generations = generations_per_batch * n_batches
 full_filename = fname + str(gen_to_load) + '.p'
 print('Loading ' + full_filename + ' and running ' + str(total_generations) + ' more generations')

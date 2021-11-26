@@ -25,7 +25,7 @@ from utils import *
 from classGeneticLearner import GeneticLearner
 
 
-gen_to_load = 297
+gen_to_load = 488
 fname = 'models/model_'
 generations_per_batch = 1
 n_batches = 1000
