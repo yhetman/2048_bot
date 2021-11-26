@@ -15,7 +15,7 @@ from utils import *
 import tkinter as tk
 import time
 
-fname = 'models/model_241'
+fname = 'models/model_1'
 n_new_games = 2
 G = load_model_state(fname + '.p')
 A = G.get_best_agent()
